@@ -1,0 +1,671 @@
+
+Attiny2313Receiver.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000334  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000004  00800060  00000334  000003c8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000c  00800064  00800064  000003cc  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000003cc  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000080  00000000  00000000  000003fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000073a  00000000  00000000  0000047c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000320  00000000  00000000  00000bb6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002a6  00000000  00000000  00000ed6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000184  00000000  00000000  0000117c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000040a  00000000  00000000  00001300  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000046a  00000000  00000000  0000170a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000070  00000000  00000000  00001b74  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2a c0       	rjmp	.+84     	; 0x58 <__bad_interrupt>
+   4:	29 c0       	rjmp	.+82     	; 0x58 <__bad_interrupt>
+   6:	28 c0       	rjmp	.+80     	; 0x58 <__bad_interrupt>
+   8:	27 c0       	rjmp	.+78     	; 0x58 <__bad_interrupt>
+   a:	26 c0       	rjmp	.+76     	; 0x58 <__bad_interrupt>
+   c:	6e c1       	rjmp	.+732    	; 0x2ea <__vector_6>
+   e:	4a c1       	rjmp	.+660    	; 0x2a4 <__vector_7>
+  10:	23 c0       	rjmp	.+70     	; 0x58 <__bad_interrupt>
+  12:	22 c0       	rjmp	.+68     	; 0x58 <__bad_interrupt>
+  14:	21 c0       	rjmp	.+66     	; 0x58 <__bad_interrupt>
+  16:	20 c0       	rjmp	.+64     	; 0x58 <__bad_interrupt>
+  18:	1f c0       	rjmp	.+62     	; 0x58 <__bad_interrupt>
+  1a:	1e c0       	rjmp	.+60     	; 0x58 <__bad_interrupt>
+  1c:	1d c0       	rjmp	.+58     	; 0x58 <__bad_interrupt>
+  1e:	1c c0       	rjmp	.+56     	; 0x58 <__bad_interrupt>
+  20:	1b c0       	rjmp	.+54     	; 0x58 <__bad_interrupt>
+  22:	1a c0       	rjmp	.+52     	; 0x58 <__bad_interrupt>
+  24:	19 c0       	rjmp	.+50     	; 0x58 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf ed       	ldi	r28, 0xDF	; 223
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	10 e0       	ldi	r17, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	e4 e3       	ldi	r30, 0x34	; 52
+  36:	f3 e0       	ldi	r31, 0x03	; 3
+  38:	02 c0       	rjmp	.+4      	; 0x3e <__SP_L__+0x1>
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+  3e:	a4 36       	cpi	r26, 0x64	; 100
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <__do_copy_data+0xc>
+
+00000044 <__do_clear_bss>:
+  44:	20 e0       	ldi	r18, 0x00	; 0
+  46:	a4 e6       	ldi	r26, 0x64	; 100
+  48:	b0 e0       	ldi	r27, 0x00	; 0
+  4a:	01 c0       	rjmp	.+2      	; 0x4e <.do_clear_bss_start>
+
+0000004c <.do_clear_bss_loop>:
+  4c:	1d 92       	st	X+, r1
+
+0000004e <.do_clear_bss_start>:
+  4e:	a0 37       	cpi	r26, 0x70	; 112
+  50:	b2 07       	cpc	r27, r18
+  52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
+  54:	bc d0       	rcall	.+376    	; 0x1ce <main>
+  56:	6c c1       	rjmp	.+728    	; 0x330 <_exit>
+
+00000058 <__bad_interrupt>:
+  58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
+
+0000005a <_ZN5Modes9initPortsEv>:
+﻿#include "Modes.h"
+
+void Modes::initPorts(void)
+{
+	DDRB |= (1 << RELAY_ONE)|(1 << RELAY_TWO); //Relays as output
+  5a:	87 b3       	in	r24, 0x17	; 23
+  5c:	88 61       	ori	r24, 0x18	; 24
+  5e:	87 bb       	out	0x17, r24	; 23
+	PORTB &= ~((1 << RELAY_ONE)|(1 << RELAY_TWO)); //Relays off
+  60:	88 b3       	in	r24, 0x18	; 24
+  62:	87 7e       	andi	r24, 0xE7	; 231
+  64:	88 bb       	out	0x18, r24	; 24
+	PORTB |= (1 << JUMPER); //Pull-up resistor to jumper
+  66:	c0 9a       	sbi	0x18, 0	; 24
+	DDRB &= ~(1 << JUMPER); //Jumper as input
+  68:	b8 98       	cbi	0x17, 0	; 23
+  6a:	08 95       	ret
+
+0000006c <_ZN5Modes14getJumperStateEv>:
+}
+
+bool Modes::getJumperState(void)
+{
+	if((PINB & (1 << JUMPER)) == (1 << JUMPER))
+  6c:	b0 9b       	sbis	0x16, 0	; 22
+  6e:	03 c0       	rjmp	.+6      	; 0x76 <_ZN5Modes14getJumperStateEv+0xa>
+	{
+		jumperState = false;
+  70:	fc 01       	movw	r30, r24
+  72:	10 82       	st	Z, r1
+  74:	05 c0       	rjmp	.+10     	; 0x80 <_ZN5Modes14getJumperStateEv+0x14>
+	}
+	else if((PINB & (1 << JUMPER)) == (0 << JUMPER))
+  76:	b0 99       	sbic	0x16, 0	; 22
+  78:	03 c0       	rjmp	.+6      	; 0x80 <_ZN5Modes14getJumperStateEv+0x14>
+	{
+		jumperState = true;
+  7a:	21 e0       	ldi	r18, 0x01	; 1
+  7c:	fc 01       	movw	r30, r24
+  7e:	20 83       	st	Z, r18
+	}
+	
+	return jumperState;
+}
+  80:	fc 01       	movw	r30, r24
+  82:	80 81       	ld	r24, Z
+  84:	08 95       	ret
+
+00000086 <_ZN4Uart8readByteEv>:
+}
+
+
+void Uart::readByte(void)
+{
+	currentByte = UDR; //Reading Uart
+  86:	8c b1       	in	r24, 0x0c	; 12
+  88:	80 93 68 00 	sts	0x0068, r24
+	
+	//Begin message
+	if(currentByte == '<')
+  8c:	80 91 68 00 	lds	r24, 0x0068
+  90:	8c 33       	cpi	r24, 0x3C	; 60
+  92:	a1 f4       	brne	.+40     	; 0xbc <_ZN4Uart8readByteEv+0x36>
+	{
+		counterRxBuff = 0;
+  94:	10 92 69 00 	sts	0x0069, r1
+		for(uint8_t i = 1; i < BUFF_LENGTH; i++)
+		{
+			rxBuff[i] = 0;
+  98:	10 92 6b 00 	sts	0x006B, r1
+  9c:	10 92 6c 00 	sts	0x006C, r1
+  a0:	10 92 6d 00 	sts	0x006D, r1
+  a4:	10 92 6e 00 	sts	0x006E, r1
+  a8:	10 92 6f 00 	sts	0x006F, r1
+		}
+		timer = 0;
+  ac:	10 92 64 00 	sts	0x0064, r1
+  b0:	10 92 65 00 	sts	0x0065, r1
+  b4:	10 92 66 00 	sts	0x0066, r1
+  b8:	10 92 67 00 	sts	0x0067, r1
+
+	}
+	
+	//Buffer is filled
+	if(counterRxBuff < BUFF_LENGTH)
+  bc:	80 91 69 00 	lds	r24, 0x0069
+  c0:	86 30       	cpi	r24, 0x06	; 6
+  c2:	70 f4       	brcc	.+28     	; 0xe0 <__stack+0x1>
+	{
+		rxBuff[counterRxBuff] = currentByte;
+  c4:	e0 91 69 00 	lds	r30, 0x0069
+  c8:	f0 e0       	ldi	r31, 0x00	; 0
+  ca:	80 91 68 00 	lds	r24, 0x0068
+  ce:	e6 59       	subi	r30, 0x96	; 150
+  d0:	ff 4f       	sbci	r31, 0xFF	; 255
+  d2:	80 83       	st	Z, r24
+		counterRxBuff++;
+  d4:	80 91 69 00 	lds	r24, 0x0069
+  d8:	8f 5f       	subi	r24, 0xFF	; 255
+  da:	80 93 69 00 	sts	0x0069, r24
+  de:	08 95       	ret
+	//Clear buffer when it's overflowed
+	else
+	{
+		for(uint8_t i = 0; i < BUFF_LENGTH; i++)
+		{
+			rxBuff[i] = 0;
+  e0:	10 92 6a 00 	sts	0x006A, r1
+  e4:	10 92 6b 00 	sts	0x006B, r1
+  e8:	10 92 6c 00 	sts	0x006C, r1
+  ec:	10 92 6d 00 	sts	0x006D, r1
+  f0:	10 92 6e 00 	sts	0x006E, r1
+  f4:	10 92 6f 00 	sts	0x006F, r1
+		}
+		counterRxBuff = 0;
+  f8:	10 92 69 00 	sts	0x0069, r1
+  fc:	08 95       	ret
+
+000000fe <_ZN4Uart13readRxCommandEv>:
+	}
+}
+
+uint8_t Uart::readRxCommand(void)
+{	
+	if((rxBuff[0] == '<') && (rxBuff[5] == '>'))
+  fe:	20 91 6a 00 	lds	r18, 0x006A
+ 102:	2c 33       	cpi	r18, 0x3C	; 60
+ 104:	11 f5       	brne	.+68     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+ 106:	20 91 6f 00 	lds	r18, 0x006F
+ 10a:	2e 33       	cpi	r18, 0x3E	; 62
+ 10c:	f1 f4       	brne	.+60     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+ 10e:	20 c0       	rjmp	.+64     	; 0x150 <_ZN4Uart13readRxCommandEv+0x52>
+	{
+		if((rxBuff[1] == address[0]) && (rxBuff[2] == address[1]) && (rxBuff[3] == 'A') && (rxBuff[4] == '1'))
+ 110:	30 91 6c 00 	lds	r19, 0x006C
+ 114:	20 91 61 00 	lds	r18, 0x0061
+ 118:	32 13       	cpse	r19, r18
+ 11a:	25 c0       	rjmp	.+74     	; 0x166 <_ZN4Uart13readRxCommandEv+0x68>
+ 11c:	20 91 6d 00 	lds	r18, 0x006D
+ 120:	21 34       	cpi	r18, 0x41	; 65
+ 122:	09 f5       	brne	.+66     	; 0x166 <_ZN4Uart13readRxCommandEv+0x68>
+ 124:	20 91 6e 00 	lds	r18, 0x006E
+ 128:	21 33       	cpi	r18, 0x31	; 49
+ 12a:	e9 f4       	brne	.+58     	; 0x166 <_ZN4Uart13readRxCommandEv+0x68>
+ 12c:	18 c0       	rjmp	.+48     	; 0x15e <_ZN4Uart13readRxCommandEv+0x60>
+		{
+			uartCommand = BUT_ONE;
+		}
+		
+		else if((rxBuff[1] == address[0]) && (rxBuff[2] == address[1]) && (rxBuff[3] == 'B') && (rxBuff[4] == '2'))
+ 12e:	30 91 6c 00 	lds	r19, 0x006C
+ 132:	20 91 61 00 	lds	r18, 0x0061
+ 136:	32 13       	cpse	r19, r18
+ 138:	08 c0       	rjmp	.+16     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+ 13a:	20 91 6d 00 	lds	r18, 0x006D
+ 13e:	22 34       	cpi	r18, 0x42	; 66
+ 140:	21 f4       	brne	.+8      	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+ 142:	20 91 6e 00 	lds	r18, 0x006E
+ 146:	22 33       	cpi	r18, 0x32	; 50
+ 148:	a9 f0       	breq	.+42     	; 0x174 <_ZN4Uart13readRxCommandEv+0x76>
+		{
+			uartCommand = BUT_TWO;
+		}
+	}		
+	
+	return uartCommand;	
+ 14a:	fc 01       	movw	r30, r24
+ 14c:	80 81       	ld	r24, Z
+ 14e:	08 95       	ret
+
+uint8_t Uart::readRxCommand(void)
+{	
+	if((rxBuff[0] == '<') && (rxBuff[5] == '>'))
+	{
+		if((rxBuff[1] == address[0]) && (rxBuff[2] == address[1]) && (rxBuff[3] == 'A') && (rxBuff[4] == '1'))
+ 150:	30 91 6b 00 	lds	r19, 0x006B
+ 154:	20 91 60 00 	lds	r18, 0x0060
+ 158:	32 13       	cpse	r19, r18
+ 15a:	05 c0       	rjmp	.+10     	; 0x166 <_ZN4Uart13readRxCommandEv+0x68>
+ 15c:	d9 cf       	rjmp	.-78     	; 0x110 <_ZN4Uart13readRxCommandEv+0x12>
+		{
+			uartCommand = BUT_ONE;
+ 15e:	21 e0       	ldi	r18, 0x01	; 1
+ 160:	fc 01       	movw	r30, r24
+ 162:	20 83       	st	Z, r18
+ 164:	f2 cf       	rjmp	.-28     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+		}
+		
+		else if((rxBuff[1] == address[0]) && (rxBuff[2] == address[1]) && (rxBuff[3] == 'B') && (rxBuff[4] == '2'))
+ 166:	30 91 6b 00 	lds	r19, 0x006B
+ 16a:	20 91 60 00 	lds	r18, 0x0060
+ 16e:	32 13       	cpse	r19, r18
+ 170:	ec cf       	rjmp	.-40     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+ 172:	dd cf       	rjmp	.-70     	; 0x12e <_ZN4Uart13readRxCommandEv+0x30>
+		{
+			uartCommand = BUT_TWO;
+ 174:	22 e0       	ldi	r18, 0x02	; 2
+ 176:	fc 01       	movw	r30, r24
+ 178:	20 83       	st	Z, r18
+ 17a:	e7 cf       	rjmp	.-50     	; 0x14a <_ZN4Uart13readRxCommandEv+0x4c>
+
+0000017c <_ZN4Uart10cleaRxBuffEv>:
+
+void Uart::cleaRxBuff(void)
+{
+	for(uint8_t i = 0; i < BUFF_LENGTH; i++)
+	{
+		rxBuff[i] = 0;
+ 17c:	10 92 6a 00 	sts	0x006A, r1
+ 180:	10 92 6b 00 	sts	0x006B, r1
+ 184:	10 92 6c 00 	sts	0x006C, r1
+ 188:	10 92 6d 00 	sts	0x006D, r1
+ 18c:	10 92 6e 00 	sts	0x006E, r1
+ 190:	10 92 6f 00 	sts	0x006F, r1
+	}
+	uartCommand = BUT_NO;
+ 194:	fc 01       	movw	r30, r24
+ 196:	10 82       	st	Z, r1
+ 198:	08 95       	ret
+
+0000019a <_ZN4Uart10initTimer0Ev>:
+}
+
+void Uart::initTimer0(void)
+{
+	TCCR0B = (1 <<  CS02)|(0 <<  CS01)|(1 <<  CS00);
+ 19a:	85 e0       	ldi	r24, 0x05	; 5
+ 19c:	83 bf       	out	0x33, r24	; 51
+	TIMSK |= (1 << TOIE0);
+ 19e:	89 b7       	in	r24, 0x39	; 57
+ 1a0:	82 60       	ori	r24, 0x02	; 2
+ 1a2:	89 bf       	out	0x39, r24	; 57
+ 1a4:	08 95       	ret
+
+000001a6 <_ZN4Uart6Timer0Ev>:
+}
+
+void Uart::Timer0(void)
+{
+	timer++;
+ 1a6:	80 91 64 00 	lds	r24, 0x0064
+ 1aa:	90 91 65 00 	lds	r25, 0x0065
+ 1ae:	a0 91 66 00 	lds	r26, 0x0066
+ 1b2:	b0 91 67 00 	lds	r27, 0x0067
+ 1b6:	01 96       	adiw	r24, 0x01	; 1
+ 1b8:	a1 1d       	adc	r26, r1
+ 1ba:	b1 1d       	adc	r27, r1
+ 1bc:	80 93 64 00 	sts	0x0064, r24
+ 1c0:	90 93 65 00 	sts	0x0065, r25
+ 1c4:	a0 93 66 00 	sts	0x0066, r26
+ 1c8:	b0 93 67 00 	sts	0x0067, r27
+ 1cc:	08 95       	ret
+
+000001ce <main>:
+#include "Modes.cpp"
+#include "Uart.h"
+#include "Uart.cpp"
+
+int main(void)
+{
+ 1ce:	cf 93       	push	r28
+ 1d0:	df 93       	push	r29
+ 1d2:	00 d0       	rcall	.+0      	; 0x1d4 <main+0x6>
+ 1d4:	cd b7       	in	r28, 0x3d	; 61
+ 1d6:	dd 27       	eor	r29, r29
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1d8:	2f ef       	ldi	r18, 0xFF	; 255
+ 1da:	84 e3       	ldi	r24, 0x34	; 52
+ 1dc:	9c e0       	ldi	r25, 0x0C	; 12
+ 1de:	21 50       	subi	r18, 0x01	; 1
+ 1e0:	80 40       	sbci	r24, 0x00	; 0
+ 1e2:	90 40       	sbci	r25, 0x00	; 0
+ 1e4:	e1 f7       	brne	.-8      	; 0x1de <main+0x10>
+ 1e6:	00 c0       	rjmp	.+0      	; 0x1e8 <main+0x1a>
+ 1e8:	00 00       	nop
+	_delay_ms(500);
+	
+	Modes modes;
+	modes.initPorts();
+ 1ea:	ce 01       	movw	r24, r28
+ 1ec:	02 96       	adiw	r24, 0x02	; 2
+ 1ee:	35 df       	rcall	.-406    	; 0x5a <_ZN5Modes9initPortsEv>
+
+void Uart::InitUart(uint16_t speed)
+{
+	// setting the baud rate
+	uint16_t baudrate = F_CPU/16/speed-1;
+	UBRRH = baudrate>>8;
+ 1f0:	12 b8       	out	0x02, r1	; 2
+	UBRRL = baudrate;
+ 1f2:	89 ef       	ldi	r24, 0xF9	; 249
+ 1f4:	89 b9       	out	0x09, r24	; 9
+	UCSRC = (0 << UPM1)|(0 << UPM0)|(0 << USBS)|(1 << UCSZ1)|(1 << UCSZ0); //Set frame: 8data, 1stop
+ 1f6:	86 e0       	ldi	r24, 0x06	; 6
+ 1f8:	83 b9       	out	0x03, r24	; 3
+}
+
+void Uart::getchUartEn(void)
+{
+	UCSRB = (1 << RXCIE)|(1 << RXEN);
+ 1fa:	80 e9       	ldi	r24, 0x90	; 144
+ 1fc:	8a b9       	out	0x0a, r24	; 10
+	Uart uart;
+	uart.InitUart(2000);
+	uart.getchUartEn();
+	uint8_t currentCommand = BUT_NO;
+	
+	switch(modes.getJumperState())
+ 1fe:	ce 01       	movw	r24, r28
+ 200:	02 96       	adiw	r24, 0x02	; 2
+ 202:	34 df       	rcall	.-408    	; 0x6c <_ZN5Modes14getJumperStateEv>
+ 204:	90 e0       	ldi	r25, 0x00	; 0
+ 206:	00 97       	sbiw	r24, 0x00	; 0
+ 208:	21 f0       	breq	.+8      	; 0x212 <main+0x44>
+ 20a:	01 97       	sbiw	r24, 0x01	; 1
+ 20c:	39 f4       	brne	.+14     	; 0x21c <main+0x4e>
+			currentMode = MODE_NO_JUMPER;
+			uart.initTimer0();
+		break;
+		
+		case true:
+			currentMode = MODE_YES_JUMPER;
+ 20e:	03 e0       	ldi	r16, 0x03	; 3
+ 210:	06 c0       	rjmp	.+12     	; 0x21e <main+0x50>
+	
+	switch(modes.getJumperState())
+	{
+		case false:
+			currentMode = MODE_NO_JUMPER;
+			uart.initTimer0();
+ 212:	ce 01       	movw	r24, r28
+ 214:	01 96       	adiw	r24, 0x01	; 1
+ 216:	c1 df       	rcall	.-126    	; 0x19a <_ZN4Uart10initTimer0Ev>
+	uint8_t currentCommand = BUT_NO;
+	
+	switch(modes.getJumperState())
+	{
+		case false:
+			currentMode = MODE_NO_JUMPER;
+ 218:	01 e0       	ldi	r16, 0x01	; 1
+			uart.initTimer0();
+		break;
+ 21a:	01 c0       	rjmp	.+2      	; 0x21e <main+0x50>
+		case true:
+			currentMode = MODE_YES_JUMPER;
+		break;
+		
+		default:
+			currentMode = MODE_NO;		
+ 21c:	00 e0       	ldi	r16, 0x00	; 0
+	}
+	
+	sei();
+ 21e:	78 94       	sei
+	uint8_t currentMode = MODE_NO;
+		
+	Uart uart;
+	uart.InitUart(2000);
+	uart.getchUartEn();
+	uint8_t currentCommand = BUT_NO;
+ 220:	10 e0       	ldi	r17, 0x00	; 0
+	
+	sei();
+	
+	while(1)
+	{
+		switch(currentMode)
+ 222:	01 30       	cpi	r16, 0x01	; 1
+ 224:	19 f0       	breq	.+6      	; 0x22c <main+0x5e>
+ 226:	03 30       	cpi	r16, 0x03	; 3
+ 228:	59 f1       	breq	.+86     	; 0x280 <main+0xb2>
+ 22a:	fb cf       	rjmp	.-10     	; 0x222 <main+0x54>
+		{
+			//button1 is pressed --- relay1 is on and relay2 is off
+			//button2 is pressed --- relay2 is on and relay1 is off
+			case MODE_NO_JUMPER:
+				if(currentCommand != uart.readRxCommand())
+ 22c:	ce 01       	movw	r24, r28
+ 22e:	01 96       	adiw	r24, 0x01	; 1
+ 230:	66 df       	rcall	.-308    	; 0xfe <_ZN4Uart13readRxCommandEv>
+ 232:	18 17       	cp	r17, r24
+ 234:	99 f0       	breq	.+38     	; 0x25c <main+0x8e>
+				{
+					currentCommand = uart.readRxCommand();
+ 236:	ce 01       	movw	r24, r28
+ 238:	01 96       	adiw	r24, 0x01	; 1
+ 23a:	61 df       	rcall	.-318    	; 0xfe <_ZN4Uart13readRxCommandEv>
+ 23c:	18 2f       	mov	r17, r24
+					switch(currentCommand)
+ 23e:	81 30       	cpi	r24, 0x01	; 1
+ 240:	41 f0       	breq	.+16     	; 0x252 <main+0x84>
+ 242:	18 f0       	brcs	.+6      	; 0x24a <main+0x7c>
+ 244:	82 30       	cpi	r24, 0x02	; 2
+ 246:	41 f0       	breq	.+16     	; 0x258 <main+0x8a>
+ 248:	09 c0       	rjmp	.+18     	; 0x25c <main+0x8e>
+					{
+						case BUT_NO:
+						PORTB &= ~((1 << RELAY_ONE)|(1 << RELAY_TWO));
+ 24a:	88 b3       	in	r24, 0x18	; 24
+ 24c:	87 7e       	andi	r24, 0xE7	; 231
+ 24e:	88 bb       	out	0x18, r24	; 24
+						break;
+ 250:	05 c0       	rjmp	.+10     	; 0x25c <main+0x8e>
+						
+						case BUT_ONE:
+						PORTB &= ~(1 << RELAY_TWO);
+ 252:	c4 98       	cbi	0x18, 4	; 24
+						PORTB |= (1 << RELAY_ONE);
+ 254:	c3 9a       	sbi	0x18, 3	; 24
+						break;
+ 256:	02 c0       	rjmp	.+4      	; 0x25c <main+0x8e>
+						
+						case BUT_TWO:
+						PORTB &= ~(1 << RELAY_ONE);
+ 258:	c3 98       	cbi	0x18, 3	; 24
+						PORTB |= (1 << RELAY_TWO);
+ 25a:	c4 9a       	sbi	0x18, 4	; 24
+	timer++;
+}
+
+uint16_t Uart::getTimer0(void)
+{
+	return timer;
+ 25c:	40 91 64 00 	lds	r20, 0x0064
+ 260:	50 91 65 00 	lds	r21, 0x0065
+ 264:	60 91 66 00 	lds	r22, 0x0066
+ 268:	70 91 67 00 	lds	r23, 0x0067
+						break;
+					}
+				}
+				
+				if(uart.getTimer0() > 18)
+ 26c:	43 31       	cpi	r20, 0x13	; 19
+ 26e:	51 05       	cpc	r21, r1
+ 270:	c0 f2       	brcs	.-80     	; 0x222 <main+0x54>
+				{
+					PORTB &= ~((1 << RELAY_ONE)|(1 << RELAY_TWO));
+ 272:	88 b3       	in	r24, 0x18	; 24
+ 274:	87 7e       	andi	r24, 0xE7	; 231
+ 276:	88 bb       	out	0x18, r24	; 24
+					uart.cleaRxBuff();
+ 278:	ce 01       	movw	r24, r28
+ 27a:	01 96       	adiw	r24, 0x01	; 1
+ 27c:	7f df       	rcall	.-258    	; 0x17c <_ZN4Uart10cleaRxBuffEv>
+ 27e:	d1 cf       	rjmp	.-94     	; 0x222 <main+0x54>
+			
+			
+			//button 1 is pressed --- relay1 and relay2 is on
+			//button 2 is pressed --- relay1 and relay2 is off
+			case MODE_YES_JUMPER:
+				if(currentCommand != uart.readRxCommand())
+ 280:	ce 01       	movw	r24, r28
+ 282:	01 96       	adiw	r24, 0x01	; 1
+ 284:	3c df       	rcall	.-392    	; 0xfe <_ZN4Uart13readRxCommandEv>
+ 286:	18 17       	cp	r17, r24
+ 288:	61 f2       	breq	.-104    	; 0x222 <main+0x54>
+				{
+					currentCommand = uart.readRxCommand();
+ 28a:	ce 01       	movw	r24, r28
+ 28c:	01 96       	adiw	r24, 0x01	; 1
+ 28e:	37 df       	rcall	.-402    	; 0xfe <_ZN4Uart13readRxCommandEv>
+ 290:	18 2f       	mov	r17, r24
+					switch(currentCommand)
+ 292:	81 30       	cpi	r24, 0x01	; 1
+ 294:	19 f0       	breq	.+6      	; 0x29c <main+0xce>
+ 296:	82 30       	cpi	r24, 0x02	; 2
+ 298:	19 f0       	breq	.+6      	; 0x2a0 <main+0xd2>
+ 29a:	c3 cf       	rjmp	.-122    	; 0x222 <main+0x54>
+					{	
+						case BUT_ONE:
+						//PORTB |= (1 << RELAY_TWO);
+						PORTB |= (1 << RELAY_ONE);
+ 29c:	c3 9a       	sbi	0x18, 3	; 24
+						break;
+ 29e:	c1 cf       	rjmp	.-126    	; 0x222 <main+0x54>
+						
+						case BUT_TWO:
+						PORTB &= ~(1 << RELAY_ONE);
+ 2a0:	c3 98       	cbi	0x18, 3	; 24
+						//PORTB &= ~(1 << RELAY_TWO);
+						break;
+ 2a2:	bf cf       	rjmp	.-130    	; 0x222 <main+0x54>
+
+000002a4 <__vector_7>:
+		
+	}
+}
+
+ISR(USART_RX_vect, ISR_BLOCK)
+{
+ 2a4:	1f 92       	push	r1
+ 2a6:	0f 92       	push	r0
+ 2a8:	0f b6       	in	r0, 0x3f	; 63
+ 2aa:	0f 92       	push	r0
+ 2ac:	11 24       	eor	r1, r1
+ 2ae:	2f 93       	push	r18
+ 2b0:	3f 93       	push	r19
+ 2b2:	4f 93       	push	r20
+ 2b4:	5f 93       	push	r21
+ 2b6:	6f 93       	push	r22
+ 2b8:	7f 93       	push	r23
+ 2ba:	8f 93       	push	r24
+ 2bc:	9f 93       	push	r25
+ 2be:	af 93       	push	r26
+ 2c0:	bf 93       	push	r27
+ 2c2:	ef 93       	push	r30
+ 2c4:	ff 93       	push	r31
+	Uart::readByte();
+ 2c6:	df de       	rcall	.-578    	; 0x86 <_ZN4Uart8readByteEv>
+}
+ 2c8:	ff 91       	pop	r31
+ 2ca:	ef 91       	pop	r30
+ 2cc:	bf 91       	pop	r27
+ 2ce:	af 91       	pop	r26
+ 2d0:	9f 91       	pop	r25
+ 2d2:	8f 91       	pop	r24
+ 2d4:	7f 91       	pop	r23
+ 2d6:	6f 91       	pop	r22
+ 2d8:	5f 91       	pop	r21
+ 2da:	4f 91       	pop	r20
+ 2dc:	3f 91       	pop	r19
+ 2de:	2f 91       	pop	r18
+ 2e0:	0f 90       	pop	r0
+ 2e2:	0f be       	out	0x3f, r0	; 63
+ 2e4:	0f 90       	pop	r0
+ 2e6:	1f 90       	pop	r1
+ 2e8:	18 95       	reti
+
+000002ea <__vector_6>:
+
+ISR(TIMER0_OVF_vect)
+{
+ 2ea:	1f 92       	push	r1
+ 2ec:	0f 92       	push	r0
+ 2ee:	0f b6       	in	r0, 0x3f	; 63
+ 2f0:	0f 92       	push	r0
+ 2f2:	11 24       	eor	r1, r1
+ 2f4:	2f 93       	push	r18
+ 2f6:	3f 93       	push	r19
+ 2f8:	4f 93       	push	r20
+ 2fa:	5f 93       	push	r21
+ 2fc:	6f 93       	push	r22
+ 2fe:	7f 93       	push	r23
+ 300:	8f 93       	push	r24
+ 302:	9f 93       	push	r25
+ 304:	af 93       	push	r26
+ 306:	bf 93       	push	r27
+ 308:	ef 93       	push	r30
+ 30a:	ff 93       	push	r31
+	Uart::Timer0();
+ 30c:	4c df       	rcall	.-360    	; 0x1a6 <_ZN4Uart6Timer0Ev>
+ 30e:	ff 91       	pop	r31
+ 310:	ef 91       	pop	r30
+ 312:	bf 91       	pop	r27
+ 314:	af 91       	pop	r26
+ 316:	9f 91       	pop	r25
+ 318:	8f 91       	pop	r24
+ 31a:	7f 91       	pop	r23
+ 31c:	6f 91       	pop	r22
+ 31e:	5f 91       	pop	r21
+ 320:	4f 91       	pop	r20
+ 322:	3f 91       	pop	r19
+ 324:	2f 91       	pop	r18
+ 326:	0f 90       	pop	r0
+ 328:	0f be       	out	0x3f, r0	; 63
+ 32a:	0f 90       	pop	r0
+ 32c:	1f 90       	pop	r1
+ 32e:	18 95       	reti
+
+00000330 <_exit>:
+ 330:	f8 94       	cli
+
+00000332 <__stop_program>:
+ 332:	ff cf       	rjmp	.-2      	; 0x332 <__stop_program>

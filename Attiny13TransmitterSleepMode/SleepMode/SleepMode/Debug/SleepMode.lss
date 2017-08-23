@@ -1,0 +1,460 @@
+
+SleepMode.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001d8  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000e  00800060  000001d8  0000026c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  0080006e  0080006e  0000027a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000027a  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000060  00000000  00000000  000002aa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000004da  00000000  00000000  0000030a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000268  00000000  00000000  000007e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000224  00000000  00000000  00000a4c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000110  00000000  00000000  00000c70  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000002b8  00000000  00000000  00000d80  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000002c3  00000000  00000000  00001038  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000050  00000000  00000000  000012fb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	c5 c0       	rjmp	.+394    	; 0x190 <__vector_2>
+   6:	d5 c0       	rjmp	.+426    	; 0x1b2 <__vector_3>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	e8 ed       	ldi	r30, 0xD8	; 216
+  24:	f1 e0       	ldi	r31, 0x01	; 1
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	ae 36       	cpi	r26, 0x6E	; 110
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
+
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	ae e6       	ldi	r26, 0x6E	; 110
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	af 36       	cpi	r26, 0x6F	; 111
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	62 d0       	rcall	.+196    	; 0x108 <main>
+  44:	c7 c0       	rjmp	.+398    	; 0x1d4 <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <_ZN11ProgramUart9UART_initEv>:
+п»ї#include <avr/io.h>
+#include <util/delay.h>
+
+void ProgramUart::UART_init(void)
+{
+	DDRB |= (1 << TX_PIN);
+  48:	b9 9a       	sbi	0x17, 1	; 23
+	PORTB |= (1 << TX_PIN);
+  4a:	c1 9a       	sbi	0x18, 1	; 24
+  4c:	08 95       	ret
+
+0000004e <_ZN11ProgramUart8UART_bitEc>:
+}
+
+void ProgramUart::UART_bit(char bit)
+{
+	if (bit == 0x00)
+  4e:	61 11       	cpse	r22, r1
+  50:	01 c0       	rjmp	.+2      	; 0x54 <_ZN11ProgramUart8UART_bitEc+0x6>
+	{
+		PORTB &= ~(1 << TX_PIN);
+  52:	c1 98       	cbi	0x18, 1	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  54:	8f ea       	ldi	r24, 0xAF	; 175
+  56:	94 e0       	ldi	r25, 0x04	; 4
+  58:	01 97       	sbiw	r24, 0x01	; 1
+  5a:	f1 f7       	brne	.-4      	; 0x58 <_ZN11ProgramUart8UART_bitEc+0xa>
+  5c:	00 c0       	rjmp	.+0      	; 0x5e <_ZN11ProgramUart8UART_bitEc+0x10>
+  5e:	00 00       	nop
+	}
+	_delay_us(500);
+	PORTB |= (1 << TX_PIN);
+  60:	c1 9a       	sbi	0x18, 1	; 24
+  62:	08 95       	ret
+
+00000064 <_ZN11ProgramUart9UART_byteEc>:
+}
+
+void ProgramUart::UART_byte(char byte)
+{
+  64:	ef 92       	push	r14
+  66:	ff 92       	push	r15
+  68:	0f 93       	push	r16
+  6a:	1f 93       	push	r17
+  6c:	cf 93       	push	r28
+  6e:	df 93       	push	r29
+  70:	8c 01       	movw	r16, r24
+  72:	e6 2e       	mov	r14, r22
+	UART_bit(0x00);//start bit
+  74:	60 e0       	ldi	r22, 0x00	; 0
+  76:	eb df       	rcall	.-42     	; 0x4e <_ZN11ProgramUart8UART_bitEc>
+  78:	c0 e0       	ldi	r28, 0x00	; 0
+  7a:	d0 e0       	ldi	r29, 0x00	; 0
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		if ((byte >> i) & 0x01)
+  7c:	f1 2c       	mov	r15, r1
+  7e:	97 01       	movw	r18, r14
+  80:	0c 2e       	mov	r0, r28
+  82:	02 c0       	rjmp	.+4      	; 0x88 <_ZN11ProgramUart9UART_byteEc+0x24>
+  84:	35 95       	asr	r19
+  86:	27 95       	ror	r18
+  88:	0a 94       	dec	r0
+  8a:	e2 f7       	brpl	.-8      	; 0x84 <_ZN11ProgramUart9UART_byteEc+0x20>
+  8c:	20 ff       	sbrs	r18, 0
+  8e:	04 c0       	rjmp	.+8      	; 0x98 <_ZN11ProgramUart9UART_byteEc+0x34>
+		{
+			UART_bit(0x01);//data bit
+  90:	61 e0       	ldi	r22, 0x01	; 1
+  92:	c8 01       	movw	r24, r16
+  94:	dc df       	rcall	.-72     	; 0x4e <_ZN11ProgramUart8UART_bitEc>
+  96:	03 c0       	rjmp	.+6      	; 0x9e <_ZN11ProgramUart9UART_byteEc+0x3a>
+		}
+		else
+		{
+			UART_bit(0x00);//data bit
+  98:	60 e0       	ldi	r22, 0x00	; 0
+  9a:	c8 01       	movw	r24, r16
+  9c:	d8 df       	rcall	.-80     	; 0x4e <_ZN11ProgramUart8UART_bitEc>
+  9e:	21 96       	adiw	r28, 0x01	; 1
+}
+
+void ProgramUart::UART_byte(char byte)
+{
+	UART_bit(0x00);//start bit
+	for (uint8_t i = 0; i < 8; i++)
+  a0:	c8 30       	cpi	r28, 0x08	; 8
+  a2:	d1 05       	cpc	r29, r1
+  a4:	61 f7       	brne	.-40     	; 0x7e <_ZN11ProgramUart9UART_byteEc+0x1a>
+		else
+		{
+			UART_bit(0x00);//data bit
+		}
+	}
+	UART_bit(0x01);//stop bit
+  a6:	61 e0       	ldi	r22, 0x01	; 1
+  a8:	c8 01       	movw	r24, r16
+  aa:	d1 df       	rcall	.-94     	; 0x4e <_ZN11ProgramUart8UART_bitEc>
+}
+  ac:	df 91       	pop	r29
+  ae:	cf 91       	pop	r28
+  b0:	1f 91       	pop	r17
+  b2:	0f 91       	pop	r16
+  b4:	ff 90       	pop	r15
+  b6:	ef 90       	pop	r14
+  b8:	08 95       	ret
+
+000000ba <_ZN11ProgramUart9UART_sendEPc>:
+
+void ProgramUart::UART_send(char *str)
+{
+  ba:	ff 92       	push	r15
+  bc:	0f 93       	push	r16
+  be:	1f 93       	push	r17
+  c0:	cf 93       	push	r28
+  c2:	df 93       	push	r29
+  c4:	8c 01       	movw	r16, r24
+  c6:	eb 01       	movw	r28, r22
+	uint8_t i = 0;
+	while (str[i])
+  c8:	68 81       	ld	r22, Y
+  ca:	66 23       	and	r22, r22
+  cc:	51 f0       	breq	.+20     	; 0xe2 <_ZN11ProgramUart9UART_sendEPc+0x28>
+	UART_bit(0x01);//stop bit
+}
+
+void ProgramUart::UART_send(char *str)
+{
+	uint8_t i = 0;
+  ce:	f1 2c       	mov	r15, r1
+	while (str[i])
+	{
+		UART_byte(str[i++]);
+  d0:	f3 94       	inc	r15
+  d2:	c8 01       	movw	r24, r16
+  d4:	c7 df       	rcall	.-114    	; 0x64 <_ZN11ProgramUart9UART_byteEc>
+}
+
+void ProgramUart::UART_send(char *str)
+{
+	uint8_t i = 0;
+	while (str[i])
+  d6:	fe 01       	movw	r30, r28
+  d8:	ef 0d       	add	r30, r15
+  da:	f1 1d       	adc	r31, r1
+  dc:	60 81       	ld	r22, Z
+  de:	61 11       	cpse	r22, r1
+  e0:	f7 cf       	rjmp	.-18     	; 0xd0 <_ZN11ProgramUart9UART_sendEPc+0x16>
+	{
+		UART_byte(str[i++]);
+	}
+}
+  e2:	df 91       	pop	r29
+  e4:	cf 91       	pop	r28
+  e6:	1f 91       	pop	r17
+  e8:	0f 91       	pop	r16
+  ea:	ff 90       	pop	r15
+  ec:	08 95       	ret
+
+000000ee <_Z10initPCINT0v>:
+
+uint8_t timer = 0;
+
+void initPCINT0(void)
+{
+	PCMSK |= (1 <<  PCINT3)|(1 <<  PCINT4);
+  ee:	85 b3       	in	r24, 0x15	; 21
+  f0:	88 61       	ori	r24, 0x18	; 24
+  f2:	85 bb       	out	0x15, r24	; 21
+	GIMSK |= (1 << PCIE);
+  f4:	8b b7       	in	r24, 0x3b	; 59
+  f6:	80 62       	ori	r24, 0x20	; 32
+  f8:	8b bf       	out	0x3b, r24	; 59
+  fa:	08 95       	ret
+
+000000fc <_Z10initTIMER0v>:
+}
+
+void initTIMER0(void)
+{
+	TCCR0B = (1 << CS02)|(0 << CS01)|(1 << CS00);
+  fc:	85 e0       	ldi	r24, 0x05	; 5
+  fe:	83 bf       	out	0x33, r24	; 51
+	TIMSK0 |= (1 <<  TOIE0);
+ 100:	89 b7       	in	r24, 0x39	; 57
+ 102:	82 60       	ori	r24, 0x02	; 2
+ 104:	89 bf       	out	0x39, r24	; 57
+ 106:	08 95       	ret
+
+00000108 <main>:
+}
+
+int main() 
+{
+ 108:	cf 93       	push	r28
+ 10a:	df 93       	push	r29
+ 10c:	1f 92       	push	r1
+ 10e:	cd b7       	in	r28, 0x3d	; 61
+ 110:	dd 27       	eor	r29, r29
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 112:	2f ef       	ldi	r18, 0xFF	; 255
+ 114:	8d ee       	ldi	r24, 0xED	; 237
+ 116:	92 e0       	ldi	r25, 0x02	; 2
+ 118:	21 50       	subi	r18, 0x01	; 1
+ 11a:	80 40       	sbci	r24, 0x00	; 0
+ 11c:	90 40       	sbci	r25, 0x00	; 0
+ 11e:	e1 f7       	brne	.-8      	; 0x118 <main+0x10>
+ 120:	00 c0       	rjmp	.+0      	; 0x122 <main+0x1a>
+ 122:	00 00       	nop
+	_delay_ms(100);
+	
+	DDRB |= (1 << LED_OUT);
+ 124:	b8 9a       	sbi	0x17, 0	; 23
+	PORTB &= ~(1 << LED_OUT);
+ 126:	c0 98       	cbi	0x18, 0	; 24
+	
+	initTIMER0();
+ 128:	e9 df       	rcall	.-46     	; 0xfc <_Z10initTIMER0v>
+	initPCINT0();
+ 12a:	e1 df       	rcall	.-62     	; 0xee <_Z10initPCINT0v>
+	
+	ProgramUart progamUart;
+	progamUart.UART_init();
+ 12c:	ce 01       	movw	r24, r28
+ 12e:	01 96       	adiw	r24, 0x01	; 1
+ 130:	8b df       	rcall	.-234    	; 0x48 <_ZN11ProgramUart9UART_initEv>
+	
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN); // если спать - то на полную
+ 132:	85 b7       	in	r24, 0x35	; 53
+ 134:	87 7e       	andi	r24, 0xE7	; 231
+ 136:	80 61       	ori	r24, 0x10	; 16
+ 138:	85 bf       	out	0x35, r24	; 53
+	
+	sei();
+ 13a:	78 94       	sei
+	
+	while(1) {
+		if(timer <= 20)
+ 13c:	80 91 6e 00 	lds	r24, 0x006E
+ 140:	85 31       	cpi	r24, 0x15	; 21
+ 142:	40 f4       	brcc	.+16     	; 0x154 <main+0x4c>
+		{
+			if(((PINB & (1 << BUTTON_OPEN)) == (0 << BUTTON_OPEN)) && ((PINB & (1 << BUTTON_CLOSE)) == (1 << BUTTON_CLOSE)))
+ 144:	b3 99       	sbic	0x16, 3	; 22
+ 146:	16 c0       	rjmp	.+44     	; 0x174 <main+0x6c>
+ 148:	b4 99       	sbic	0x16, 4	; 22
+ 14a:	0b c0       	rjmp	.+22     	; 0x162 <main+0x5a>
+ 14c:	13 c0       	rjmp	.+38     	; 0x174 <main+0x6c>
+				progamUart.UART_send("<9YA1>");
+				timer = 0;
+				PORTB |= (1 << LED_OUT);
+				
+			}
+			else if(((PINB & (1 << BUTTON_OPEN)) == (1 << BUTTON_OPEN)) && ((PINB & (1 << BUTTON_CLOSE)) == (0 << BUTTON_CLOSE)))
+ 14e:	b4 9b       	sbis	0x16, 4	; 22
+ 150:	14 c0       	rjmp	.+40     	; 0x17a <main+0x72>
+ 152:	1c c0       	rjmp	.+56     	; 0x18c <main+0x84>
+				PORTB &= ~(1 << LED_OUT);
+			}
+		}
+		else if(timer > 20)
+		{
+			DDRB |= (1 << 1);
+ 154:	b9 9a       	sbi	0x17, 1	; 23
+			PORTB &= ~(1 << 1);
+ 156:	c1 98       	cbi	0x18, 1	; 24
+			sleep_enable(); // разрешаем сон
+ 158:	85 b7       	in	r24, 0x35	; 53
+ 15a:	80 62       	ori	r24, 0x20	; 32
+ 15c:	85 bf       	out	0x35, r24	; 53
+			sleep_cpu(); // спать!
+ 15e:	88 95       	sleep
+ 160:	ed cf       	rjmp	.-38     	; 0x13c <main+0x34>
+	while(1) {
+		if(timer <= 20)
+		{
+			if(((PINB & (1 << BUTTON_OPEN)) == (0 << BUTTON_OPEN)) && ((PINB & (1 << BUTTON_CLOSE)) == (1 << BUTTON_CLOSE)))
+			{
+				progamUart.UART_send("<9YA1>");
+ 162:	60 e6       	ldi	r22, 0x60	; 96
+ 164:	70 e0       	ldi	r23, 0x00	; 0
+ 166:	ce 01       	movw	r24, r28
+ 168:	01 96       	adiw	r24, 0x01	; 1
+ 16a:	a7 df       	rcall	.-178    	; 0xba <_ZN11ProgramUart9UART_sendEPc>
+				timer = 0;
+ 16c:	10 92 6e 00 	sts	0x006E, r1
+				PORTB |= (1 << LED_OUT);
+ 170:	c0 9a       	sbi	0x18, 0	; 24
+ 172:	e4 cf       	rjmp	.-56     	; 0x13c <main+0x34>
+				
+			}
+			else if(((PINB & (1 << BUTTON_OPEN)) == (1 << BUTTON_OPEN)) && ((PINB & (1 << BUTTON_CLOSE)) == (0 << BUTTON_CLOSE)))
+ 174:	b3 99       	sbic	0x16, 3	; 22
+ 176:	eb cf       	rjmp	.-42     	; 0x14e <main+0x46>
+ 178:	09 c0       	rjmp	.+18     	; 0x18c <main+0x84>
+			{
+				progamUart.UART_send("<9YB2>");
+ 17a:	67 e6       	ldi	r22, 0x67	; 103
+ 17c:	70 e0       	ldi	r23, 0x00	; 0
+ 17e:	ce 01       	movw	r24, r28
+ 180:	01 96       	adiw	r24, 0x01	; 1
+ 182:	9b df       	rcall	.-202    	; 0xba <_ZN11ProgramUart9UART_sendEPc>
+				timer = 0;
+ 184:	10 92 6e 00 	sts	0x006E, r1
+				PORTB |= (1 << LED_OUT);
+ 188:	c0 9a       	sbi	0x18, 0	; 24
+ 18a:	d8 cf       	rjmp	.-80     	; 0x13c <main+0x34>
+			}
+			else
+			{
+				PORTB &= ~(1 << LED_OUT);
+ 18c:	c0 98       	cbi	0x18, 0	; 24
+ 18e:	d6 cf       	rjmp	.-84     	; 0x13c <main+0x34>
+
+00000190 <__vector_2>:
+		}
+	}
+}
+
+ISR(PCINT0_vect)
+{
+ 190:	1f 92       	push	r1
+ 192:	0f 92       	push	r0
+ 194:	0f b6       	in	r0, 0x3f	; 63
+ 196:	0f 92       	push	r0
+ 198:	11 24       	eor	r1, r1
+ 19a:	8f 93       	push	r24
+	sleep_disable();
+ 19c:	85 b7       	in	r24, 0x35	; 53
+ 19e:	8f 7d       	andi	r24, 0xDF	; 223
+ 1a0:	85 bf       	out	0x35, r24	; 53
+	timer = 0;
+ 1a2:	10 92 6e 00 	sts	0x006E, r1
+}
+ 1a6:	8f 91       	pop	r24
+ 1a8:	0f 90       	pop	r0
+ 1aa:	0f be       	out	0x3f, r0	; 63
+ 1ac:	0f 90       	pop	r0
+ 1ae:	1f 90       	pop	r1
+ 1b0:	18 95       	reti
+
+000001b2 <__vector_3>:
+
+ISR(TIM0_OVF_vect)
+{
+ 1b2:	1f 92       	push	r1
+ 1b4:	0f 92       	push	r0
+ 1b6:	0f b6       	in	r0, 0x3f	; 63
+ 1b8:	0f 92       	push	r0
+ 1ba:	11 24       	eor	r1, r1
+ 1bc:	8f 93       	push	r24
+	timer++;
+ 1be:	80 91 6e 00 	lds	r24, 0x006E
+ 1c2:	8f 5f       	subi	r24, 0xFF	; 255
+ 1c4:	80 93 6e 00 	sts	0x006E, r24
+ 1c8:	8f 91       	pop	r24
+ 1ca:	0f 90       	pop	r0
+ 1cc:	0f be       	out	0x3f, r0	; 63
+ 1ce:	0f 90       	pop	r0
+ 1d0:	1f 90       	pop	r1
+ 1d2:	18 95       	reti
+
+000001d4 <_exit>:
+ 1d4:	f8 94       	cli
+
+000001d6 <__stop_program>:
+ 1d6:	ff cf       	rjmp	.-2      	; 0x1d6 <__stop_program>
